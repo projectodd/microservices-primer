@@ -1,0 +1,16 @@
+{
+  "name": "microservicesExample",
+  "version": "0.0.1",
+  "dependencies": {
+    "body-parser": "~1.0.2",
+    "express": "~4.0.0",
+    "request": "~2.40.0",
+    "twilio": "^1.11.1",
+    "underscore": "*"
+  },
+  "license": "mit",
+  "main": "application.js",
+  "scripts": {
+    "start": "node umbrella_orders.js | node rain.js | node sms.js | node mobile.js | node client.js"
+  }
+}
