@@ -1,4 +1,8 @@
-There seems to have been a tangible explosion in the use of the term “micro services”. I’ve been peripherally aware of the concept for some time now, but it seems it first came to light with a fantastic collection of thoughts by Martin Fowler[1] - my only recommended reading on the topic. I’ve been somewhat amused by this term, since we've been composing small, loosely coupled applications which combine to do work since I first started using Node.js with FeedHenry. I'd love to claim some visionary stroke of trend-predicting genius, but really it’s the path the Node.js community lead us down.  
+#A MicroServices Primer in Node.js
+There seems to have been a tangible explosion in the use of the term “micro services”. I’ve been peripherally aware of the concept for some time now, but it seems it first came to light with a fantastic collection of thoughts by Martin Fowler[1] - some great reading on the topic.
+  
+I’ve been somewhat amused by this term, since we've been composing small, loosely coupled applications which combine to do work since I first started using Node.js with FeedHenry. I'd love to claim some visionary stroke of trend-predicting genius, but really it’s the path the Node.js community lead us down.  
+  
 What started as cries of “Make everything you possibly can small re-usable modules” (micromodules anybody?) quickly became "make everything small re-usable applications”, and now we're calling them microservices. Great!
 
 
@@ -52,10 +56,12 @@ Lastly, we're also going to add a service to allow us to push an SMS alert to th
 ##Composing into a mobile service
 Now we have our two standalone microservices, let's make one cohesive API  expose for mobile - our mobile ordering service. 
 
+	// TODO
+	
+##Results
+
+	// TODO
+
 
 
 [1] [http://martinfowler.com/articles/microservices.html](http://martinfowler.com/articles/microservices.html)
-
--Build separate
--Don’t be afraid to fork out for a newer version, run side by side with old
--We’ve been doing this all along
