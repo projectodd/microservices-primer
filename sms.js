@@ -5,7 +5,7 @@ var client = new twilio.RestClient(process.env.TWILIO_SID, process.env.TWILIO_AU
 app.post('/sms', function(req, res){
   var to = req.body.to, 
   message = req.body.message;
-  client.sms.messages.create({ to: to, from : process.env.TWILIO_NUM, body : message}, function(error, message){
+  client.sms.messages.create({ to: to, from : process.env.TWILIO_NUM, body : message}, function(error, messageResponse){
     return res.json(message);
   });
 });
