@@ -24,7 +24,7 @@ Let's make a micro service for orders for our travelling umbrella sales team. He
 
     var server = app.listen(3000);
     
-Ten lines - pretty micro, huh? Ok, so I cheated a bit - that first line is concice to the point of unreadable, and we're just putting orders in memory - but we now have a _really micro_ service. 
+Ten lines - pretty micro, huh? Ok, so I cheated a bit - that first line is concise to the point of unreadable, and we're just putting orders in memory - but we now have a _really micro_ service. 
   
 _For future code snippets, I'm going to drop some of the boilerplate setup code._
 
@@ -62,9 +62,9 @@ Lastly, we're also going to add a service to allow us to push an SMS alert to th
 Introducing a microservices based architecture has some specific considerations when it comes to delivering content to mobile applications. I'm going to deal with two main concerns - coupling and performance. 
 
 ### Loose-Coupled, Tight-Coupled, Practically Welded Shut
-In a web application, we know that once we deploy an update to the webapp, all our connected clients are using the new API, and we can deprecate the old one. This makes for a relatively loose coupling between client and server.
+In a web application, we know that once we deploy an update to the web application, all our connected clients are using the new API, and we can deprecate the old one. This makes for a relatively loose coupling between client and server.
 
-A mobile application is released into an App Store. In an enterprise environemnt, we can usually force out an update & watch it propegate to users within a matter of days, but that's still makes for a pretty tightly coupled API.  
+A mobile application is released into an App Store. In an enterprise environment, we can usually force out an update & watch it propagate to users within a matter of days, but that's still makes for a pretty tightly coupled API.  
 If it's an app in the public App Store, there may be a review period. Once released, users download this update over the course of weeks, months, maybe never. I've still got to maintain my previous API, and this makes for an integration which is so tightly coupled, it's practically welded shut. (See, these days everybody is coining new terms!)  
 This makes for some very special considerations when architecting for mobile.
 
@@ -84,7 +84,7 @@ We're going to try doing this two ways.
 ### Take 1: Client-Side Business Logic
 First, we'll build this application how many existing mobile apps are built - we'll implement a lot of business logic on the client (steps 1, 2 and 3 above), and make three separate REST calls from the mobile device.  
 
-Sure, we've still got microservices on the serverside - but we could equally picture this as a monolith, for what little use we're making of the microservices philosphy.  
+Sure, we've still got microservices on the serverside - but we could equally picture this as a monolith, for what little use we're making of the microservices philosophy.  
 
 
 	        +--+                   +--------+-----+ 
@@ -139,7 +139,7 @@ We've got one simple API to maintain, a perfectly reasonable POST of a JSON payl
 
 Finally, the good stuff. How do these two approaches compare? 
 Using the first approach, our average response time over an Edge network is __978.1ms__.  
-Introucing our mobile specific microservice, this average time plumets to __398.6__.
+Introducing our mobile specific microservice, this average time plummets to __398.6__.
 
 
 	// TODO better results - graph across some sort of scale, type of network (4G -> 3G -> 2G -> Edge), with pretty charts
