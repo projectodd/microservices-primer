@@ -93,12 +93,10 @@ This can introduce some interesting trade-offs which need to be balanced:
 2. At what point does the response body size of a combined payload negate any potential performance gains
 
 ### The Internet of Things - The Great Reset
-	// TODO - Wearables, IoT. Clock resets! Even more resource constrained than mobile
-	- devices can even be not powerful enough for HTTPS! 
-	-JSON too big
-	-IoT specific services
-	- is this another blog post in itself?
-
+The Internet of Things (IoT) introduces a whole new wave of device form factors. With this wave of devices comes an effective reset of our expectations. This paradigm shift of expectations mirrors the early days of Mobile, when we had heavily resource constrained devices. Along with Microservices specific to mobile, as IoT enabled devices are rolled out it's worth considering microservices catering to their specific needs.  
+Many IoT devices will be incapable of performing HTTPS due to the computationally expensive overhead of the SSL handshake process. 
+Payloads will need to be trimmed even further - even JSON bodies are both too large, and too costly to parse. Think lighter weight protocols like MQTT[2].  
+Performance considerations are even more important when considering IoT devices.
 
 ##Taking our Microservices to Mobile
 Now that we've built our microservices, we're going to bring them to a mobile device. 
@@ -107,7 +105,7 @@ We're going to try doing this two ways.
 ### Take 1: Client-Side Business Logic
 First, we'll build this application how many existing mobile apps are built - we'll implement a lot of business logic on the client (steps 1, 2 and 3 above), and make three separate REST calls from the mobile device.  
 
-Sure, we've still got microservices on the serverside - but we could equally picture this as a monolith, for what little use we're making of the microservices philosophy.  
+Sure, we've still got microservices on the server-side - but we could equally picture this as a monolith, for what little use we're making of the microservices philosophy.  
 
 
 	        +--+                   +--------+-----+ 
@@ -132,7 +130,7 @@ Sure, we've still got microservices on the serverside - but we could equally pic
 This illustrates the "wrong way". Now, let's examine an improved approach. 
 
 ### Take 2: Microservices for Mobile
-As before, we're going to achieve this integration using a series of microserves - but we're going to meld the data together in a fourth and final mobile-specific microservice. 
+As before, we're going to achieve this integration using a series of microservices - but we're going to meld the data together in a fourth and final mobile-specific microservice. 
 
 		
 		                        +-------------+                   +--------+-----+ 
@@ -158,14 +156,38 @@ As before, we're going to achieve this integration using a series of microserves
 Now, we send our order information to a new mobile ordering microservice, which implements all this business logic on the server side. 
 We've got one simple API to maintain, a perfectly reasonable POST of a JSON payload, and this integration becomes a much looser coupling. We're not sending unnecessary data back to the mobile app. 
 	
-##Results
+##Benchmarking
+Now, let's see how do these two approaches compare across a range of mobile network types. If interested, some notes on the benchmarks are available in the footnotes[3].
 
-Finally, the good stuff. How do these two approaches compare? 
-Using the first approach, our average response time over an Edge network is __978.1ms__.  
-Introducing our mobile specific microservice, this average time plummets to __398.6__.
+A simple mobile client implementing the two approaches to integrating discussed above was created, which also measures request time across each approach. 
 
+### Payload Size
+First, a brief look at the total payload size over 100 requests. 
+Using the mobile microservice, __68kb__ of data was exchanged. Calling each microservice individually resulted in **1.5mb** of data, a substantial increase likely due to returning weather information in it's entirety on every request.  
 
-	// TODO better results - graph across some sort of scale, type of network (4G -> 3G -> 2G -> Edge), with pretty charts
+### Response Times
 
+![Results](results.png)
+Examining the results, we see nominal difference between approaches using a 4G network. When we move to a 3G network, the gap widens - there's **8 seconds** in the difference across requests.
+Edge networks show a wider gap still, with an increase in average request time of almost **27 seconds**. At this point, the end user would really feel the pain of an inferior architecture. 
+Lastly, over GPRS the impact of implementing multiple calls on the client is eye-opening. With average request times of **over 2 minutes**, the application would be effectively unusable. Compare this to a microservice based architecture, with response times averaging 12 seconds, the application is slow but still usable. 
+The key take away from this benchmark is as the network slows, **response time grows exponentially** when not considering mobile in your microservice architecture.
 
-[1] [http://martinfowler.com/articles/microservices.html](http://martinfowler.com/articles/microservices.html)
+    # To run these benchmarks, clone [the repository](https://github.com/cianclarke/microservices-primer).
+    git clone https://github.com/cianclarke/microservices-primer.git ; cd microservices-primer
+    # Install dependencies
+    npm install -d
+    # Set Twilio environment variables
+    export TWILIO_AUTH=foo; export TWILIO_SID=bar; export TWILIO_NUM="+1234567";
+    # start the 4 microservices & the test runner
+    npm start
+    # To view the test runner, visit http://localhost:3004/ in a browser.
+
+## Conclusion
+Having seen some drastic results, what can we conclude from these benchmarks? I'm not going to try make such bold, linkbait-esque claims as "Microservices make mobile 10x faster" - that's simply not true. 
+What is true, however, is that the rollout of a Microservices based architecture needs to consider mobile as a first class citizen. Not doing so will ruin the user experience for end users, and render applications virtually useless on slower networks. 
+If the above considerations are taken into approach, the rollout of this new breed of architecture should prove a much smoother transition. 
+
+[1] [http://martinfowler.com/articles/microservices.html](http://martinfowler.com/articles/microservices.html)  
+[2] [http://mqtt.org/](http://mqtt.org/)  
+[3] 100 requests in each run. SMS API calls to Twilio simulated with 250ms timeout to avoid excessive calls to their API. Chrome Developer Tools network throttling used to simulate network speeds. Node.js processes restarted after every batch of 100 requests. Requests had timestamp appended to prevent browser caching. 
