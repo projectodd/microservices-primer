@@ -4,42 +4,59 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/async/0.9.0/async.js" type="text/javascript"></script>
     <script>
     var order = {
-      "city" : "Berlin",
-      "country" : "germany",
+      "city" : "Dublin",
+      "country" : "Ireland",
       "quantity" : 100,
-      "accountManager" : "+1 123 456 7890"
+      "accountManager" : "+1 123 456 789"
     };
     
     $(function(){
-      $('#unified').on('click', unified);
-      $('#onebyone').on('click', oneByOne);
+      $('#unified').on('click', iterator('unified', 100, unified));
+      $('#onebyone').on('click', iterator('onebyone', 100, oneByOne));
       $('pre').html(JSON.stringify(order));
     });
+    
+    function iterator(name, times, fn){
+      return function(){
+        var getters = [];
+        for (var i=0; i<times; i++){
+          getters.push(fn);
+        }
+        async.parallel(getters, function(err, results){
+          var sum = results.reduce(function(a, b){
+            return a + b;
+          }),
+          avg = sum / times;
+          $('#results').append('<br /> ' + name + ' took an average of ' + avg);
+        });
+      }
+    }
 
     
-    function unified(){
+    function unified(done){
       var time1 = new Date().getTime();
       $.ajax({
         type: "POST",
-        url: 'http://localhost:3003/orders',
+        url: 'http://localhost:3003/orders?ts=' + time1,
         data: JSON.stringify(order),
         dataType : 'json',
         contentType: "application/json",
         success: function(){
           time1 = new Date().getTime() - time1;
-          $('#results').append('<br /> Unified took ' + time1);  
+          $('#results').append('<br /> Unified took ' + time1);
+          return done(null, time1);
         }
       });
     }
     
-    function oneByOne(){
+    function oneByOne(done){
       // reset this before each call
       order.quantity = 100;
       
       var time2 = new Date().getTime();
       $.ajax({
         type: "GET",
-        url: 'http://localhost:3001/rain?city=' + order.city + '&country=' + order.country,
+        url: 'http://localhost:3001/rain?city=' + order.city + '&country=' + order.country + '&ts=' + time2,
         dataType : 'json',
         contentType: "application/json",
         success: function(rainfallResult){
@@ -47,7 +64,7 @@
           var rainfall = rainfallResult;
           $.ajax({
             type: "POST",
-            url: 'http://localhost:3000/orders/umbrellas',
+            url: 'http://localhost:3000/orders/umbrellas?ts=' + time2,
             data : JSON.stringify(order),
             dataType : 'json',
             contentType: "application/json",
@@ -55,13 +72,14 @@
               var sms = { to : order.accountManager, message : "New order created for " + order.quantity + " umbrellas!"};
               $.ajax({
                 type: "POST",
-                url: 'http://localhost:3002/sms',
+                url: 'http://localhost:3002/sms?ts=' + time2,
                 data : JSON.stringify(sms),
                 dataType : 'json',
                 contentType: "application/json",
                 success: function(smsSendResult){
                   time2 = new Date().getTime() - time2;
                   $('#results').append('<br /> OneByOne took ' + time2);
+                  return done(null, time2);
                 }
               });
             }
