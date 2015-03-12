@@ -11,8 +11,10 @@
     };
     
     $(function(){
-      $('#unified').on('click', iterator('unified', 100, unified));
-      $('#onebyone').on('click', iterator('onebyone', 100, oneByOne));
+      $('#unified').on('click', iterator('unified', 1, unified));
+      $('#onebyone').on('click', iterator('onebyone', 1, oneByOne));
+      $('#unifiedBench').on('click', iterator('unified', 1, unified));
+      $('#onebyoneBench').on('click', iterator('onebyone', 1, oneByOne));
       $('pre').html(JSON.stringify(order));
     });
     
@@ -94,8 +96,10 @@
     <h2>Request Body</h2>
     <pre></pre>
     <h2>Controls</h2>
-    <button id="unified">Unified API</button>
+    <button id="unified">Microservices</button>
     <button id="onebyone">One-By-One</button>
+    <button id="unifiedBench">Microservices Benchmark</button>
+    <button id="onebyoneBench">One-By-One Benchmark</button>
     <h2>Results:</h2>
     <div id="results"></div>
   </body>

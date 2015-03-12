@@ -1,12 +1,18 @@
-#A MicroServices Primer in Node.js
+#Part 1: A MicroServices Primer
 There seems to have been a tangible explosion in the use of the term “micro services”. I’ve been peripherally aware of the concept for some time now, but it seems it first came to light with a fantastic collection of thoughts by Martin Fowler[1] - some great reading on the topic.
 
-This post is not going to help you make a business case for rewriting your existing monolith as a series of microservices. I'm not going to quantify your ROI, or "leverage synergies". Instead, I'm going to attempt to illustrate using some simple examples just how easy it can be to get started with microservices. 
+This three part series of posts will not help you make a business case for rewriting your existing monolith as a series of microservices. I'm not going to quantify your ROI, or "leverage synergies". Instead, I'm going to show how microservices make sense for mobile in a series of practical, example-driven posts. 
+
+* Part one will illustrate using hands-on examples just how easy it can be to get started with microservices. 
+* Part two will introduce mobile-specific microservice considerations
+* Part three will use what we learned in the previous two posts to benchmark the drastic impact microservices based architectures can have on mobile. 
+
+## Microservices - The Term
   
-I’ve been somewhat amused by this term, since we've been composing small, loosely coupled applications which combine to do work since I first started using Node.js with FeedHenry. I'd love to claim some visionary stroke of trend-predicting genius, but really it’s the path the Node.js community lead us down.  
+I’ve been somewhat amused by the term microservices, since we've been composing small, loosely coupled applications which combine to do work since I first started using Node.js with FeedHenry. I'd love to claim some visionary stroke of trend-predicting genius, but really it’s the path the Node.js community lead us down.  
   
 What started as cries of “Make everything you possibly can small re-usable modules” (micromodules anybody?) quickly became "make everything small re-usable applications”, and now we're calling them microservices. Great! Call them turnips for all I care.  
-Let's take a look at some simple examples. 
+Now, let's look at some simple examples of microservices. 
 
 ##What's a Microservice Look Like?
 
@@ -20,6 +26,7 @@ To illustrate the use of microservices, let's take a mock use case, that of a tr
 ### Our first Microservice - Orders
 First, we're going to create a micro service for orders for our travelling umbrella sales team. We're going to write our microservices in Node.js, and they're going to communicate JSON payloads over HTTP, but these are by no means prerequisites. Microservices can of course be implemented using any programming language, over any communication protocol.
 Here's a service which can both create and list umbrella orders. It creates a REST api, `/orders`. 
+
 
     var app = require('express')().use(require('body-parser')());
     var orders = [];
@@ -67,10 +74,40 @@ Lastly, we're also going to add a service to allow us to push an SMS alert to th
 	  });
 	});
 	app.listen(3002);
+	
+We've now created our series of 3 microservices. To get started with the examples provided, follow these steps in a terminal: 
 
+	# clone the repository
+    git clone https://github.com/cianclarke/microservices-primer.git ; cd microservices-primer
+    # Install dependencies
+    npm install -d
+    # Set Twilio environment variables
+    export TWILIO_AUTH=foo; export TWILIO_SID=bar; export TWILIO_NUM="+1234567";
+    # start the 4 microservices & the test runner
+    npm start
+    
+We're now running our series of microservices, and can interact with them using CURL:
 
-##Microservices Considerations for Mobile
-Now that we've set up a series of three microservices, let's pause to consider how we consume this API.  
+	# Service 1: Create a new order in the database
+	curl 'http://127.0.0.1:3000/orders/umbrellas' -H 'Content-Type: application/json' --data-binary '{"city":"Dublin","country":"Ireland","quantity":984.4999999999999,"accountManager":"+1 123 456 789"}'
+	
+	# Service 1: List orders in the database
+	curl http://127.0.0.1:3000/orders/umbrellas
+	
+	# Service 2: GET request to rain service to retrieve information for Dublin, Ireland
+	curl 'http://127.0.0.1:3001/rain?city=Dublin'
+
+	# Service 3: POST to the SMS service
+	curl 'http://127.0.0.1:3002/sms' -H 'Content-Type: application/json' --data-binary '{"to":"+1 123 456 789","message":"My SMS Message!"}'
+  	
+  
+
+====================================================================
+
+#Part 2: Microservices Considerations for Mobile
+In part 1 of this series, we set up a series of three microservices to interact with, using Node.js as the serverside technology.  
+
+Now, let's pause to consider how we consume this API.  
 Introducing a microservices based architecture has some specific considerations when it comes to delivering content to mobile applications. I'm going to deal with two main concerns - coupling and performance. 
 
 ### Loose-Coupled, Tight-Coupled, Practically Welded Shut
@@ -98,7 +135,9 @@ Many IoT devices will be incapable of performing HTTPS due to the computationall
 Payloads will need to be trimmed even further - even JSON bodies are both too large, and too costly to parse. Think lighter weight protocols like MQTT[2].  
 Performance considerations are even more important when considering IoT devices.
 
-##Taking our Microservices to Mobile
+====================================================================
+
+#Part 3: Taking our Microservices Mobile
 Now that we've built our microservices, we're going to bring them to a mobile device. 
 We're going to try doing this two ways. 
 
