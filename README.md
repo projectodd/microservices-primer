@@ -21,7 +21,7 @@ We're now running our series of microservices, and can interact with them using 
 	curl http://127.0.0.1:3000/orders/umbrellas
 	
 	# Service 2: GET request to rain service to retrieve information for Dublin, Ireland
-	curl 'http://127.0.0.1:3001/rain?city=Dublin'
+	curl 'http://127.0.0.1:3001/rain?city=Dublin&country=Ireland'
 
 	# Service 3: POST to the SMS service
 	curl 'http://127.0.0.1:3002/sms' -H 'Content-Type: application/json' --data-binary '{"to":"+1 123 456 789","message":"My SMS Message!"}'

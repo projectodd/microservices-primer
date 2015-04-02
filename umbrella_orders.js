@@ -1,4 +1,4 @@
-var app = require('express')().use(require('body-parser')());
+var app = require('express')().use(require('body-parser')()).use(require('cors')());
 
 var umbrella_orders = [];
 // Create a new order

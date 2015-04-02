@@ -1,6 +1,7 @@
 var app = require('express')().use(require('body-parser')());
 var twilio = require('twilio');
 var client = new twilio.RestClient(process.env.TWILIO_SID, process.env.TWILIO_AUTH);
+app.use(require('cors')());
 // Create a new order
 app.post('/sms', function(req, res){
   var to = req.body.to, 

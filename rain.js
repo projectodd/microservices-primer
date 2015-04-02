@@ -2,6 +2,7 @@ var app = require('express')();
 var request = require('request');
 var _ = require('underscore');
 var weatherUrl = 'http://api.openweathermap.org/data/2.5/forecast';
+app.use(require('cors')());
 
 app.get('/rain', function(req, res){
   var city = req.query.city, 
