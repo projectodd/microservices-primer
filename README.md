@@ -1,16 +1,18 @@
-#Microservices - Benchmarks
-Supporting code repository to compliment microservices blog post.  
-To get started with the examples provided, follow these steps in a terminal: 
+# Node Microservices Playground
+
+This is a very basic microservices test app forked from
+https://github.com/cianclarke/microservices-primer to give us a
+playground for experimenting with different ways to develop and deploy
+microservices in Node.
+
+To run the test app:
+
+    npm install
+    npm start
     
-    # To run these benchmarks, clone this repository
-     git clone https://github.com/cianclarke/microservices-primer.git ; cd microservices-primer 
-    # Install dependencies
-     npm install -d 
-    # Set Twilio environment variables - you can get these by creating a Twilio account
-     export TWILIO_AUTH=foo; export TWILIO_SID=bar; export TWILIO_NUM="+1234567";
-     # start the 4 microservices & the test runner
-     npm start 
-    # To view the test runner, visit http://localhost:3004/ in a browser. 
+Visit http://localhost:3004/ in a browser to see the simple test
+app. All interactions with external APIs are mocked so we don't
+actually retrieve real weather data, send SMS, etc.
     
 We're now running our series of microservices, and can interact with them using CURL:
 
