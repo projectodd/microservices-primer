@@ -1,21 +1,28 @@
 {
-    "name": "microservicesExample",
-    "version": "0.0.1",
-    "dependencies": {
-        "body-parser": "~1.0.2",
-        "express": "~4.0.0",
-        "request": "~2.40.0",
-        "underscore": "1.8.2",
-        "cors" : "2.5.3",
-        "jStat": "1.2.1"
-    },
-    "devDependencies": {
-        "pm2": "0.14.1"
-    },
-    "license": "mit",
-    "main": "application.js",
-    "scripts": {
-        "start": "pm2 start pm2.json",
-        "stop":  "pm2 kill"
-    }
+  "name": "microservicesExample",
+  "version": "0.0.1",
+  "dependencies": {
+    "async": "^1.2.1",
+    "body-parser": "~1.0.2",
+    "circuit-breakerjs": "0.0.5",
+    "cors": "2.5.3",
+    "express": "~4.0.0",
+    "jStat": "1.2.1",
+    "jquery": "^2.1.4",
+    "request": "~2.40.0",
+    "underscore": "1.8.2"
+  },
+  "devDependencies": {
+    "browserify": "^10.2.4",
+    "pm2": "0.14.1",
+    "watchify": "^3.2.2"
+  },
+  "license": "mit",
+  "main": "application.js",
+  "scripts": {
+    "start": "pm2 start pm2.json",
+    "stop": "pm2 kill",
+    "build": "browserify www/app.js > www/bundle.js -d",
+    "watch": "watchify www/app.js -o www/bundle.js -dv"
+  }
 }

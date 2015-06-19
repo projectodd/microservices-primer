@@ -31,3 +31,14 @@ We're now running our series of microservices, and can interact with them using 
 
     # Service 3: POST to the SMS service
     curl 'http://127.0.0.1:3002/sms' -H 'Content-Type: application/json' --data-binary '{"to":"+1 123 456 789","message":"My SMS Message!"}'
+
+
+To build the front end javascript file, use browserify:
+
+    # if you don't already have browserify installed
+    npm install -g browserify
+    npm run build
+
+To automatically regenerate the `www/bundle.js` file when it changes:
+
+    npm run watch
