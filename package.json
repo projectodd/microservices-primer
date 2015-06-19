@@ -5,9 +5,9 @@
     "body-parser": "~1.0.2",
     "express": "~4.0.0",
     "request": "~2.40.0",
-    "twilio": "^1.11.1",
     "underscore": "1.8.2",
-    "cors" : "2.5.3"
+    "cors" : "2.5.3",
+    "jStat": "1.2.1"
   },
   "license": "mit",
   "main": "application.js",
