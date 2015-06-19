@@ -1,0 +1,30 @@
+{
+    "apps": [
+        {
+            "name":   "umbrella",
+            "script": "umbrella_orders.js",
+            "watch":  "true"
+        },
+        {
+            "name":   "rain",
+            "script": "rain.js",
+            "watch":  "true"
+        },
+        {
+            "name":   "sms",
+            "script": "sms.js",
+            "watch":  "true"
+
+        },
+        {
+            "name":   "mobile",
+            "script": "mobile.js",
+            "watch":  "true"
+        },
+        {
+            "name":   "client",
+            "script": "client.js",
+            "watch":  "true"
+        }
+    ]
+}
