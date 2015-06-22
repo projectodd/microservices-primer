@@ -2,32 +2,32 @@
     "apps": [
         {
             "name":   "umbrella",
-            "script": "umbrella_orders.js",
+            "script": "orders/umbrella_orders.js",
             "watch":  true,
             "ignore_watch": ["/[^u].*\.js"]
         },
         {
             "name":   "rain",
-            "script": "rain.js",
+            "script": "weather/rain.js",
             "watch":  true,
             "ignore_watch": ["/[^r].*\.js"]
         },
         {
             "name":   "sms",
-            "script": "sms.js",
+            "script": "notification/sms.js",
             "watch":  true,
             "ignore_watch": ["/[^s].*\.js"]
 
         },
         {
             "name":   "mobile",
-            "script": "mobile.js",
+            "script": "orders/mobile.js",
             "watch":  true,
             "ignore_watch": ["/[^m].*\.js"]
         },
         {
             "name":   "client",
-            "script": "client.js",
+            "script": "frontend/app.js",
             "watch":  true,
             "ignore_watch": ["/[^c].*\.js"]
         }
