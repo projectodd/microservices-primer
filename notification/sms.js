@@ -1,10 +1,10 @@
 var app = require('express')().use(require('body-parser')()),
     Bootes = require('bootes'),
     bootes = new Bootes(),
+    ip = require('ip'),
     jStat = require('jStat').jStat;
 
 bootes.use('aquila');
-bootes.advertise('sms', 'http://localhost:3002/sms');
 
 app.use(require('cors')());
 // Create a new order
@@ -20,4 +20,7 @@ app.post('/sms', function(req, res){
   }, delay);
 });
 
-var server = app.listen(3002);
+var server = app.listen(3002, function() {
+  var url = 'http://' + ip.address() + ':' + server.address().port + '/sms';
+  bootes.advertise('sms', url);
+});

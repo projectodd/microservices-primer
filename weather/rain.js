@@ -1,14 +1,14 @@
-var app = require('express')();
-var fs = require('fs');
-var jStat = require('jStat').jStat;
-var request = require('request');
-var _ = require('underscore');
-var path = require('path');
-var Bootes = require('bootes');
-var bootes = new Bootes();
+var app = require('express')(),
+    Bootes = require('bootes'),
+    bootes = new Bootes(),
+    ip = require('ip'),
+    fs = require('fs'),
+    jStat = require('jStat').jStat,
+    path = require('path'),
+    request = require('request'),
+    _ = require('underscore');
 
 bootes.use('aquila');
-bootes.advertise('rain', 'http://localhost:3001/rain');
 
 // hardcode some json response so we don't hit a live API
 var jsonFile = path.resolve(__dirname + '/' + 'weather_response.json');
@@ -34,4 +34,7 @@ app.get('/rain', function(req, res){
   }, delay);
 });
 
-var server = app.listen(3001);
+var server = app.listen(3001, function() {
+  var url = 'http://' + ip.address() + ':' + server.address().port + '/rain';
+  bootes.advertise('rain', url);
+});

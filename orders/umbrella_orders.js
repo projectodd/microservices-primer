@@ -1,9 +1,9 @@
 var app = require('express')().use(require('body-parser')()).use(require('cors')()),
     Bootes = require('bootes'),
-    bootes = new Bootes();
+    bootes = new Bootes(),
+    ip = require('ip');
 
 bootes.use('aquila');
-bootes.advertise('umbrella_orders', 'http://localhost:3000/orders/umbrellas');
 
 var umbrella_orders = [];
 // Create a new order
@@ -16,4 +16,7 @@ app.get('/orders/umbrellas', function(req, res){
   return res.json(umbrella_orders);
 });
 
-var server = app.listen(3000);
+var server = app.listen(3000, function() {
+  var url = 'http://' + ip.address() + ':' + server.address().port + '/orders/umbrellas';
+  bootes.advertise('umbrella_orders', url);
+});

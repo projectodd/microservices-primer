@@ -8,6 +8,7 @@
     "circuit-breakerjs": "0.0.5",
     "cors": "2.5.3",
     "express": "~4.0.0",
+    "ip": "~0.3.3",
     "jStat": "1.2.1",
     "jquery": "^2.1.4",
     "request": "~2.40.0",

@@ -46,6 +46,7 @@ function discoverService(name, cb) {
     if (!url) {
       return cb('Error discovering service ' + name);
     }
+    console.log('service %s has url %s', name, url);
     service_map[name] = {url: url};
     cb();
   });
