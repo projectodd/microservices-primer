@@ -1,5 +1,11 @@
-var app = require('express')().use(require('body-parser')());
-var jStat = require('jStat').jStat;
+var app = require('express')().use(require('body-parser')()),
+    Bootes = require('bootes'),
+    bootes = new Bootes(),
+    jStat = require('jStat').jStat;
+
+bootes.use('aquila');
+bootes.advertise('sms', 'http://localhost:3002/sms');
+
 app.use(require('cors')());
 // Create a new order
 app.post('/sms', function(req, res){

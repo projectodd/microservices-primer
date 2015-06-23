@@ -4,6 +4,11 @@ var jStat = require('jStat').jStat;
 var request = require('request');
 var _ = require('underscore');
 var path = require('path');
+var Bootes = require('bootes');
+var bootes = new Bootes();
+
+bootes.use('aquila');
+bootes.advertise('rain', 'http://localhost:3001/rain');
 
 // hardcode some json response so we don't hit a live API
 var jsonFile = path.resolve(__dirname + '/' + 'weather_response.json');

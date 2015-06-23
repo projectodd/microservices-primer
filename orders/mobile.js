@@ -1,10 +1,13 @@
 var app = require('express')().use(require('body-parser')()).use(require('cors')()),
-request = require('request');
+    async = require('async'),
+    request = require('request'),
+    Bootes = require('bootes'),
+    bootes = new Bootes();
 
 var service_map = {
-  "umbrella_orders" : { url : 'http://localhost:3000/orders/umbrellas' },
-  "rain" : { url : 'http://localhost:3001/rain' },
-  "sms" : { url : 'http://localhost:3002/sms' }
+  "rain": {},
+  "umbrella_orders": {},
+  "sms": {}
 };
 
 // Create a new order
@@ -30,4 +33,27 @@ app.post('/orders', function(req, res){
   });
 });
 
-var server = app.listen(3003);
+
+
+// Lookup our service URLs
+bootes.use('aquila');
+
+function discoverService(name, cb) {
+  bootes.discover(name, function(err, url) {
+    if (err) {
+      return cb(err);
+    }
+    if (!url) {
+      return cb('Error discovering service ' + name);
+    }
+    service_map[name] = {url: url};
+    cb();
+  });
+}
+
+async.each(Object.keys(service_map), discoverService, function(err) {
+  if (err) {
+    return console.error(err);
+  }
+  var server = app.listen(3003);
+});

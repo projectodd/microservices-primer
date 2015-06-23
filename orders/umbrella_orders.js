@@ -1,4 +1,9 @@
-var app = require('express')().use(require('body-parser')()).use(require('cors')());
+var app = require('express')().use(require('body-parser')()).use(require('cors')()),
+    Bootes = require('bootes'),
+    bootes = new Bootes();
+
+bootes.use('aquila');
+bootes.advertise('umbrella_orders', 'http://localhost:3000/orders/umbrellas');
 
 var umbrella_orders = [];
 // Create a new order
