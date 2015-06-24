@@ -1,0 +1,59 @@
+client:
+  extends:
+    file: compose-common.yml
+    service: common
+  ports:
+    - "3004:3004"
+  command: "node frontend/app.js"
+  # For some reason client needs to come up last or serving up
+  # index.html freaks out, probably due to several containers having
+  # mounted that same volume. Adding a link to mobile forces this
+  # ordering.
+  links:
+    - mobile
+mobile:
+  extends:
+    file: compose-common.yml
+    service: common
+  ports:
+    - "3003:3003"
+  command: "node orders/mobile.js"
+  links:
+    - rain
+    - umbrella:umbrella_orders
+    - sms
+rain:
+  extends:
+    file: compose-common.yml
+    service: common
+  expose:
+    - "3001"
+  command: "node weather/rain.js"
+  # Since Docker linking can only transmit host, port, and protocol
+  # (tcp/udp) information, set a couple of environment variables that
+  # the docker-links Bootes plugin will look up from the linked
+  # container to find the scheme and path.
+  environment:
+    BOOTES_SCHEME: http
+    BOOTES_PATH: /rain
+umbrella:
+  extends:
+    file: compose-common.yml
+    service: common
+  expose:
+    - "3000"
+  command: "node orders/umbrella_orders.js"
+  environment:
+    BOOTES_SCHEME: http
+    BOOTES_PATH: /orders/umbrellas
+sms:
+  extends:
+    file: compose-common.yml
+    service: common
+  expose:
+    - "3002"
+    - "3009"
+  command: "node notification/sms.js"
+  environment:
+    BOOTES_SCHEME: http
+    BOOTES_PATH: /sms

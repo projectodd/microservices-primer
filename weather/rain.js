@@ -36,5 +36,6 @@ app.get('/rain', function(req, res){
 
 var server = app.listen(3001, function() {
   var url = 'http://' + ip.address() + ':' + server.address().port + '/rain';
+  console.log('rain advertising service url %s', url);
   bootes.advertise('rain', url);
 });

@@ -42,3 +42,16 @@ To build the front end javascript file, use browserify:
 To automatically regenerate the `www/bundle.js` file when it changes:
 
     npm run watch
+
+
+## Running inside Docker
+
+To run each microservice inside a docker container instead of as
+regular processes, install Docker Compose
+(https://docs.docker.com/compose/install/) and run:
+
+    cd docker/
+    docker-compose up
+
+Use `CTRL+C` to terminate the docker cluster and `docker-compose rm`
+to remove the created docker containers.

@@ -49,6 +49,7 @@ app.post('/orders', function(req, res){
 
 
 // Lookup our service URLs
+bootes.use('docker-link');
 bootes.use('aquila');
 
 function discoverService(name, cb) {

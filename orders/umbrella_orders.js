@@ -18,5 +18,6 @@ app.get('/orders/umbrellas', function(req, res){
 
 var server = app.listen(3000, function() {
   var url = 'http://' + ip.address() + ':' + server.address().port + '/orders/umbrellas';
+  console.log('umbrella_orders advertising service url %s', url);
   bootes.advertise('umbrella_orders', url);
 });

@@ -22,5 +22,6 @@ app.post('/sms', function(req, res){
 
 var server = app.listen(3002, function() {
   var url = 'http://' + ip.address() + ':' + server.address().port + '/sms';
+  console.log('sms advertising service url %s', url);
   bootes.advertise('sms', url);
 });
