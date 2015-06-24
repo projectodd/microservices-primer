@@ -24,7 +24,7 @@
   "scripts": {
     "start": "pm2 start pm2.json",
     "stop": "pm2 kill",
-    "build": "browserify www/app.js > www/bundle.js -d",
-    "watch": "watchify www/app.js -o www/bundle.js -dv"
+    "build": "browserify frontend/www/app.js > frontend/www/bundle.js -d",
+    "watch": "watchify frontend/www/app.js -o frontend/www/bundle.js -dv"
   }
 }

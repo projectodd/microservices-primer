@@ -29,7 +29,7 @@ function iterator(name, times, fn){
       avg = sum / times;
       $('#results').append('<br /> ' + name + ' took an average of ' + avg);
     });
-  }
+  };
 }
 
 
@@ -41,9 +41,9 @@ function unified(done){
     data: JSON.stringify(order),
     dataType : 'json',
     contentType: "application/json",
-    success: function(){
+    success: function(result){
       time1 = new Date().getTime() - time1;
-      $('#results').append('<br /> Unified took ' + time1);
+      $('#results').append('<br /> Unified took ' + time1 + ', response: ' + JSON.stringify(result));
       return done(null, time1);
     }
   });
