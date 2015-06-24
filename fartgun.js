@@ -11,10 +11,11 @@ module.exports = function(options) {
       // the callback
       wrap_callback = function(cb, fallback_args) {
         return function(err) {
+          var args = arguments;
           var fallback = function() {
             return cb.apply(null, [null].concat(fallback_args));
           };
-          var wrapper = function(success, failure, timeout) { // TODO: something with timeout?
+          var wrapper = function(success, failure, _) {
             try {
               if (err) {
                 console.warn("fartgun: action for '%s' failed: %j", name, err);
@@ -29,7 +30,7 @@ module.exports = function(options) {
               throw e;
             }
 
-            return cb.apply(null, arguments);
+              return cb.apply(null, args);
           };
 
           run(wrapper, fallback);
