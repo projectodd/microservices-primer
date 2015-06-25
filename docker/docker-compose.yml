@@ -6,9 +6,7 @@ web:
     - "3000:3000"
   command: "node web/server.js"
   links:
-    - rain
-    - umbrella:umbrella_orders
-    - sms
+    - api
 rain:
   extends:
     file: compose-common.yml
@@ -50,6 +48,9 @@ api:
   expose:
     - "3004"
   command: "node orders/api.js"
+  links:
+    - umbrella:umbrella_orders
+    - sms
   environment:
     BOOTES_SCHEME: http
     BOOTES_PATH: /api
