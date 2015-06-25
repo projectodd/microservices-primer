@@ -4,7 +4,7 @@
   "dependencies": {
     "async": "^1.2.1",
     "body-parser": "~1.0.2",
-    "bootes": "projectodd/bootes#74d5940",
+    "bootes": "projectodd/bootes#ff0b1fe",
     "circuit-breakerjs": "0.0.5",
     "cors": "2.5.3",
     "express": "~4.0.0",

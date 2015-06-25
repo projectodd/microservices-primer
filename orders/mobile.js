@@ -1,8 +1,7 @@
 var app = require('express')().use(require('body-parser')()).use(require('cors')()),
     async = require('async'),
     request = require('request'),
-    Bootes = require('bootes'),
-    bootes = new Bootes(),
+    bootes = require('bootes')().use('docker-link').use('aquila'),
     fartgun = require('../fartgun'),
     rain_circuit = fartgun({name: "rain",
                             onclose: function () {console.log("rain CLOSED");},
@@ -49,9 +48,6 @@ app.post('/orders', function(req, res){
 
 
 // Lookup our service URLs
-bootes.use('docker-link');
-bootes.use('aquila');
-
 function discoverService(name, cb) {
   bootes.discover(name, function(err, url) {
     if (err) {

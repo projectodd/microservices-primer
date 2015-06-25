@@ -1,14 +1,11 @@
 var app = require('express')(),
-    Bootes = require('bootes'),
-    bootes = new Bootes(),
+    bootes = require('bootes')().use('aquila'),
     ip = require('ip'),
     fs = require('fs'),
     jStat = require('jStat').jStat,
     path = require('path'),
     request = require('request'),
     _ = require('underscore');
-
-bootes.use('aquila');
 
 // hardcode some json response so we don't hit a live API
 var jsonFile = path.resolve(__dirname + '/' + 'weather_response.json');

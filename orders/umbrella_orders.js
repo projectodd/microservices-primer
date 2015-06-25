@@ -1,9 +1,6 @@
 var app = require('express')().use(require('body-parser')()).use(require('cors')()),
-    Bootes = require('bootes'),
-    bootes = new Bootes(),
+    bootes = require('bootes')().use('aquila'),
     ip = require('ip');
-
-bootes.use('aquila');
 
 var umbrella_orders = [];
 // Create a new order

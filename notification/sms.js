@@ -1,10 +1,7 @@
 var app = require('express')().use(require('body-parser')()),
-    Bootes = require('bootes'),
-    bootes = new Bootes(),
+    bootes = require('bootes')().use('aquila'),
     ip = require('ip'),
     jStat = require('jStat').jStat;
-
-bootes.use('aquila');
 
 app.use(require('cors')());
 // Create a new order
