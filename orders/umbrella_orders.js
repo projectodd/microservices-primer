@@ -1,6 +1,6 @@
 var app = require('express')().use(require('body-parser')()).use(require('cors')()),
-    bootes = require('bootes')().use('aquila'),
-    ip = require('ip');
+    ip = require('ip'),
+    discovery = require('../lib/discovery');
 
 var umbrella_orders = [];
 // Create a new order
@@ -15,6 +15,5 @@ app.get('/orders/umbrellas', function(req, res){
 
 var server = app.listen(3003, function() {
   var url = 'http://' + ip.address() + ':' + server.address().port + '/orders/umbrellas';
-  console.log('umbrella_orders advertising service url %s', url);
-  bootes.advertise('umbrella_orders', url);
+  discovery.advertise('umbrella_orders', url);
 });

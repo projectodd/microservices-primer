@@ -1,11 +1,11 @@
 var app = require('express')(),
-    bootes = require('bootes')().use('aquila'),
     ip = require('ip'),
     fs = require('fs'),
     jStat = require('jStat').jStat,
     path = require('path'),
     request = require('request'),
-    _ = require('underscore');
+    _ = require('underscore'),
+    discovery = require('../lib/discovery');
 
 // hardcode some json response so we don't hit a live API
 var jsonFile = path.resolve(__dirname + '/' + 'weather_response.json');
@@ -33,6 +33,5 @@ app.get('/rain', function(req, res){
 
 var server = app.listen(3001, function() {
   var url = 'http://' + ip.address() + ':' + server.address().port + '/rain';
-  console.log('rain advertising service url %s', url);
-  bootes.advertise('rain', url);
+  discovery.advertise('rain', url);
 });

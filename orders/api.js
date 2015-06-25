@@ -1,19 +1,14 @@
 var app = require('express')(),
     body_parser = require('body-parser')(),
-    async = require('async'),
     request = require('request'),
-    bootes = require('bootes')().use('docker-link').use('aquila'),
     ip = require('ip'),
-    fartgun = require('../fartgun'),
+    discovery = require('../lib/discovery'),
+    fartgun = require('../lib/fartgun'),
     rain_circuit = fartgun({name: "rain",
                             onclose: function () {console.log("rain CLOSED");},
                             onopen: function () {console.log("rain OPENED");}});
 
-var service_map = {
-  "rain": {},
-  "umbrella_orders": {},
-  "sms": {}
-};
+var service_map = {};
 
 // Create a new order
 app.post('/api/orders', body_parser, function(req, res){
@@ -57,29 +52,13 @@ app.post('/api/orders', body_parser, function(req, res){
 });
 
 
-
-// Lookup our service URLs
-function discoverService(name, cb) {
-  bootes.discover(name, function(err, url) {
-    if (err) {
-      return cb(err);
-    }
-    if (!url) {
-      return cb('Error discovering service ' + name);
-    }
-    console.log('service %s has url %s', name, url);
-    service_map[name] = {url: url};
-    cb();
-  });
-}
-
-async.each(Object.keys(service_map), discoverService, function(err) {
+discovery.discoverAll(["rain", "sms", "umbrella_orders"], function(err, services) {
   if (err) {
     return console.error(err);
   }
+  service_map = services;
   var server = app.listen(3004, function() {
     var url = 'http://' + ip.address() + ':' + server.address().port + "/api";
-    console.log('api advertising service url %s', url);
-    bootes.advertise('api', url);
+    discovery.advertise('api', url);
   });
 });
