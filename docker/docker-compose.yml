@@ -49,6 +49,7 @@ api:
     - "3004"
   command: "node orders/api.js"
   links:
+    - rain
     - umbrella:umbrella_orders
     - sms
   environment:
