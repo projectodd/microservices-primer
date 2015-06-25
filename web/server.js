@@ -32,10 +32,18 @@ app.post('/orders', body_parser, function(req, res){
         // + 1 because rainfall could be 0 inches - we don't want 0 orders
         order.quantity = order.quantity * (rainfall + 1);
         // 3. Create the order in our database
-        request.post({url : service_map.umbrella_orders.url, json : order }, function(){
+        request.post({url : service_map.umbrella_orders.url, json : order }, function(err, response, umbrellaServiceBody){
+          if (err) {
+            console.error(err);
+            return res.status(500).json({error: err});
+          }
           // 4. Generate the SMS notification
           var sms = { to : order.accountManager, message : "New order created for " + order.quantity + " umbrellas!"};
           request.post({url : service_map.sms.url, json : sms }, function(err, response, smsServiceBody){
+            if (err) {
+              console.error(err);
+              return res.status(500).json({error: err});
+            }
             // 5. All done! Back to the client
             return res.json(order);
           });

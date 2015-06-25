@@ -43,6 +43,9 @@ function unified(done){
       time1 = new Date().getTime() - time1;
       $('#results').append('<br /> Unified took ' + time1 + ', response: ' + JSON.stringify(result));
       return done(null, time1);
+    },
+    error: function(xhr, status, error){
+      $('#results').append('<br /> ' + status + ': ' + error);
     }
   });
 }

@@ -1,23 +1,10 @@
-client:
+web:
   extends:
     file: compose-common.yml
     service: common
   ports:
-    - "3004:3004"
-  command: "node frontend/app.js"
-  # For some reason client needs to come up last or serving up
-  # index.html freaks out, probably due to several containers having
-  # mounted that same volume. Adding a link to mobile forces this
-  # ordering.
-  links:
-    - mobile
-mobile:
-  extends:
-    file: compose-common.yml
-    service: common
-  ports:
-    - "3003:3003"
-  command: "node orders/mobile.js"
+    - "3000:3000"
+  command: "node web/server.js"
   links:
     - rain
     - umbrella:umbrella_orders
@@ -41,7 +28,7 @@ umbrella:
     file: compose-common.yml
     service: common
   expose:
-    - "3000"
+    - "3003"
   command: "node orders/umbrella_orders.js"
   environment:
     BOOTES_SCHEME: http
@@ -52,7 +39,6 @@ sms:
     service: common
   expose:
     - "3002"
-    - "3009"
   command: "node notification/sms.js"
   environment:
     BOOTES_SCHEME: http
