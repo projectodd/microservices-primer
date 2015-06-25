@@ -43,3 +43,13 @@ sms:
   environment:
     BOOTES_SCHEME: http
     BOOTES_PATH: /sms
+api:
+  extends:
+    file: compose-common.yml
+    service: common
+  expose:
+    - "3004"
+  command: "node orders/api.js"
+  environment:
+    BOOTES_SCHEME: http
+    BOOTES_PATH: /api

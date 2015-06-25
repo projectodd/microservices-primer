@@ -4,25 +4,31 @@
             "name":   "umbrella",
             "script": "orders/umbrella_orders.js",
             "watch":  true,
-            "ignore_watch": ["app", "web", "rain", "sms"]
+            "ignore_watch": ["app", "web", "rain", "sms", "api"]
         },
         {
             "name":   "rain",
             "script": "weather/rain.js",
             "watch":  true,
-            "ignore_watch": ["app", "web", "sms", "umbrella"]
+            "ignore_watch": ["app", "web", "sms", "umbrella", "api"]
         },
         {
             "name":   "sms",
             "script": "notification/sms.js",
             "watch":  true,
-            "ignore_watch": ["app", "web", "rain", "umbrella"]
+            "ignore_watch": ["app", "web", "rain", "umbrella", "api"]
+        },
+        {
+            "name":   "api",
+            "script": "orders/api.js",
+            "watch":  true,
+            "ignore_watch": ["app", "web", "rain", "sms", "umbrella"]
         },
         {
             "name":   "web",
             "script": "web/server.js",
             "watch":  true,
-            "ignore_watch": ["app", "rain", "sms", "umbrella"]
+            "ignore_watch": ["app", "rain", "sms", "umbrella", "api"]
         }
     ]
 }
