@@ -61,6 +61,11 @@ app.post('/api/orders', body_parser, function(req, res){
     // 3. Create the order in our database
     request.post({url: service_map.umbrella_orders.url,
                   json: order},
+                 // fail the order with a breaker so we can report on
+                 // the failure (once the breaker actually reports)
+                 // however, this means that when the service comes
+                 // back up, we have to wait for the breaker to close
+                 // again
                  order_circuit.wrap_callback(order_cb,
                                              function(err) {
                                                console.error("Order failed: ", err);
