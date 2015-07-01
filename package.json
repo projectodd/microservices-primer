@@ -12,7 +12,8 @@
     "jStat": "1.2.1",
     "jquery": "^2.1.4",
     "request": "~2.40.0",
-    "underscore": "1.8.2"
+    "underscore": "1.8.2",
+    "gfci": "projectodd/grus#84394e9"
   },
   "devDependencies": {
     "browserify": "^10.2.4",

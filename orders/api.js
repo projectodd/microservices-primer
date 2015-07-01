@@ -4,14 +4,14 @@ var app = require('express')(),
     ip = require('ip'),
     us = require('underscore'),
     discovery = require('../lib/discovery'),
-    fartgun = require('../lib/fartgun'),
-    order_circuit = fartgun({name: "orders"}),
-    rain_circuit = fartgun({name: "rain",
-                            onclose: function () {console.log("rain CLOSED");},
-                            onopen: function () {console.log("rain OPENED");}}),
-    sms_circuit = fartgun({name: "sms"
-                           // maybe retry pending sms's when the
-                           // circuit reopens?
+    grus = require('grus'),
+    order_circuit = grus({name: "orders"}),
+    rain_circuit = grus({name: "rain",
+                         onclose: function () {console.log("rain CLOSED");},
+                         onopen: function () {console.log("rain OPENED");}}),
+    sms_circuit = grus({name: "sms"
+                        // maybe retry pending sms's when the
+                        // circuit reopens?
                           }),
     service_map = {},
     server;
